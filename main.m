@@ -1,5 +1,5 @@
 percentages = .25:.25:1;
-numVertices = 3:9;
+numVertices = 3:7;
 iterations = 30;
 pool = gcp('nocreate')
 figure;
