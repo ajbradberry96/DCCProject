@@ -1,19 +1,30 @@
-percentages = .25:.25:1;
-numVertices = 3:9;
+delete(gcp('nocreate'));
+
+numWorkers = 1:4;
+percentages = [.25 .5 .75];
+numVertices = 3:7;
 iterations = 30;
-pool = gcp('nocreate')
-figure;
-hold on;
-%addAttachedFiles(pool, "ExecuteHamiltonianPerm.m")
-for p = percentages
-    times = [];
-    for n = numVertices
-        [p,n]
-        t = TimeHamiltonianPerm(n, p, iterations, pool.NumWorkers);
-        times = [times t];
+
+A = [];
+for w = numWorkers
+    parpool(w);
+    
+    pool = gcp('nocreate');
+    
+    pI = 0;
+    %addAttachedFiles(pool, "ExecuteHamiltonianPerm.m")
+    for p = percentages
+        times = [];
+        for v = numVertices
+            pI = pI + 1;
+            [p,v]
+            t = TimeHamiltonianPerm(v, p, iterations, pool.NumWorkers);
+            times = [times t];
+        end
+        
+        A(pI, w, :) = times;
     end
-    plot(numVertices, times);
+    delete(pool);
 end
-legend(strtrim(cellstr(num2str(percentages'))'));
-xlabel("Number of Vertices");
-ylabel(["Average Time over " iterations " trials"]);
+
+save('data.mat', 'A');
