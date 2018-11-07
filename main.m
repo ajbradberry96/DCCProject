@@ -14,9 +14,10 @@ for w = numWorkers
     pI = 0;
     %addAttachedFiles(pool, "ExecuteHamiltonianPerm.m")
     for p = percentages
+        pI = pI + 1;
         times = [];
         for v = numVertices
-            pI = pI + 1;
+
             [p,v]
             t = TimeHamiltonianPerm(v, p, iterations, pool.NumWorkers);
             times = [times t];
