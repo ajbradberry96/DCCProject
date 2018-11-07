@@ -5,7 +5,8 @@ function ExecuteHamiltonianPerm( n, G, numWorkers )
     spmd
         myDone = false;
         myperms = permutations(labindex:numWorkers:end,:);
-        for i = 1:length(myperms)
+        for i = 1:size(myperms,1)
+            
             done = gop(@or, myDone);
             if done == true
                 break;
@@ -24,7 +25,8 @@ function ExecuteHamiltonianPerm( n, G, numWorkers )
             end
                    
         end
-        if ~done
+        myDone = true;
+        while ~done
                 done = gop(@or, myDone);
         end
 end

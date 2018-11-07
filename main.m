@@ -1,7 +1,7 @@
 percentages = .25:.25:1;
-numVertices = 3:7;
-iterations = 15;
-
+numVertices = 3:9;
+iterations = 30;
+pool = gcp('nocreate')
 figure;
 hold on;
 %addAttachedFiles(pool, "ExecuteHamiltonianPerm.m")
